@@ -103,45 +103,45 @@ class EmployeeRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView
 class ProjectListCreateAPIView(generics.ListCreateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes=[IsAuthenticated,ProjectManagerOrAdminPermission,IsProjectManagerPermission]
+    permission_classes=[IsAuthenticated,IsProjectManagerPermission]
 
 class ProjectRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes=[IsAuthenticated,ProjectManagerOrAdminPermission,IsProjectManagerPermission]
+    permission_classes=[IsAuthenticated,IsProjectManagerPermission]
 
 # ProjectMember Views
 class ProjectMemberListCreateAPIView(generics.ListCreateAPIView):
     queryset = ProjectMember.objects.all()
     serializer_class = ProjectMemberSerializer
-    permission_classes=[IsAuthenticated,ProjectManagerOrAdminPermission,IsProjectManagerPermission]
+    permission_classes=[IsAuthenticated,IsProjectManagerPermission]
 
 class ProjectMemberRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProjectMember.objects.all()
     serializer_class = ProjectMemberSerializer
-    permission_classes=[IsAuthenticated,ProjectManagerOrAdminPermission,IsProjectManagerPermission]
+    permission_classes=[IsAuthenticated,IsProjectManagerPermission]
 
 # Task Views
 class TaskListCreateAPIView(generics.ListCreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes=[IsAuthenticated,IsEmployeePermission]
+    permission_classes=[IsAuthenticated,IsEmployeePermission,IsProjectManagerPermission]
 
 class TaskRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes=[IsAuthenticated,IsEmployeePermission]
+    permission_classes=[IsAuthenticated,IsEmployeePermission,IsProjectManagerPermission]
 
 # TaskComment Views
 class TaskCommentListCreateAPIView(generics.ListCreateAPIView):
     queryset = TaskComment.objects.all()
     serializer_class = TaskCommentSerializer
-    permission_classes=[IsAuthenticated,EmployeeorAdminPermission,ProjectManagerOrAdminPermission,IsEmployeePermission,IsProjectManagerPermission]
+    permission_classes=[IsAuthenticated,IsEmployeePermission,IsProjectManagerPermission]
 
 class TaskCommentRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TaskComment.objects.all()
     serializer_class = TaskCommentSerializer
-    permission_classes=[IsAuthenticated,EmployeeorAdminPermission,ProjectManagerOrAdminPermission,IsEmployeePermission,IsProjectManagerPermission]
+    permission_classes=[IsAuthenticated,IsEmployeePermission,IsProjectManagerPermission]
 
 # Expense Views
 class ExpenseListCreateAPIView(generics.ListCreateAPIView):

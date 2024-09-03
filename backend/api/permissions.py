@@ -90,7 +90,9 @@ class IsProjectManagerPermission(permissions.BasePermission):
             
             # Check the token expiration
             exp = payload.get('exp')
-            if exp is None or datetime.fromtimestamp(exp) < datetime.now(timezone.utc):
+            
+            exp_datetime = datetime.fromtimestamp(exp, tz=timezone.utc)
+            if exp_datetime < django_timezone.now():
                 return False
             
             # Check the role claim
