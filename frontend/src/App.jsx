@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './App.css'
 
 function App() {
-  return (<h1>Hello</h1>)
+  return (<h1>Good Morning.</h1>)
 }
 
 export default App
