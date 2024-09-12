@@ -5,15 +5,15 @@ from django.contrib.auth.hashers import make_password
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
     user_email = models.EmailField(unique=True)
-    encrypted_password = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
     last_login = models.DateTimeField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         # Encrypt the password before saving
-        if self.pk is None or 'encrypted_password' in self.get_dirty_fields():
-            self.encrypted_password = make_password(self.encrypted_password)
+        if self.pk is None or 'password' in self.get_dirty_fields():
+            self.password = make_password(self.password)
         super(User, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -23,7 +23,7 @@ class User(models.Model):
 
 class Department(models.Model):
     department_id = models.AutoField(primary_key=True)
-    department_name = models.TextField()
+    department_name = models.CharField(max_length=50)
     description =models.TextField()
     is_delete = models.BooleanField(default=False)
 

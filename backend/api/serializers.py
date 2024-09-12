@@ -10,20 +10,20 @@ from .models import Department, Role, Employee, Project, ProjectMember, Task, Ta
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['user_id', 'user_email', 'encrypted_password', 'last_login', 'is_active', 'is_deleted']
+        fields = ['user_id', 'user_email', 'password', 'last_login', 'is_active', 'is_deleted']
         extra_kwargs = {
-            'encrypted_password': {'write_only': True}
+            'password': {'write_only': True}
         }
 
     def create(self, validated_data):
         # Hash the password before saving
-        validated_data['encrypted_password'] = make_password(validated_data['encrypted_password'])
+        validated_data['password'] = make_password(validated_data['password'])
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
         # Hash the password if it is being updated
-        if 'encrypted_password' in validated_data:
-            validated_data['encrypted_password'] = make_password(validated_data['encrypted_password'])
+        if 'password' in validated_data:
+            validated_data['password'] = make_password(validated_data['password'])
         return super().update(instance, validated_data)
 
 
