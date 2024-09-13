@@ -38,7 +38,7 @@ import Kanban from '../views/dashboard/special-pages/kanban';
 import Pricing from '../views/dashboard/special-pages/pricing';
 import Timeline from '../views/dashboard/special-pages/timeline';
 import Calender from '../views/dashboard/special-pages/calender';
-import RtlSupport from '../views/dashboard/special-pages/RtlSupport'
+// import RtlSupport from '../views/dashboard/special-pages/RtlSupport'
 
 //admin
 import Admin from '../views/dashboard/admin/admin';
@@ -74,10 +74,10 @@ export const DefaultRouter = [
                 path: 'dashboard/special-pages/timeline',
                 element: <Timeline />
             },
-            {
-                path: 'dashboard/special-pages/rtl-support',
-                element: <RtlSupport/>,
-            },
+            // {
+            //     path: 'dashboard/special-pages/rtl-support',
+            //     element: <RtlSupport/>,
+            // },
             {
                 path: 'dashboard/app/user-profile',
                 element: <UserProfile />

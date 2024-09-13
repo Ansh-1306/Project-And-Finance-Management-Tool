@@ -2,7 +2,7 @@ import { useEffect, memo, Fragment, useContext } from "react";
 import { useLocation, Outlet } from "react-router-dom";
 
 //react-shepherd
-import {  ShepherdTourContext } from "react-shepherd";
+import {  ShepherdJourneyContext } from "react-shepherd";
 
 //react-bootstrap
 import { Button } from "react-bootstrap";
@@ -35,7 +35,7 @@ import { useSelector } from "react-redux";
 
 
 const Tour = () => {
-  const tour = useContext(ShepherdTourContext);
+  const tour = useContext(ShepherdJourneyContext);
   const { pathname } = useLocation();
   useEffect(() => {
     if (

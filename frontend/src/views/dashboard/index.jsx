@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import Circularprogressbar from "../../components/circularprogressbar.jsx";
 
 // AOS
-import AOS from "aos";
-import "../../../node_modules/aos/dist/aos";
-import "../../../node_modules/aos/dist/aos.css";
+// import AOS from "aos";
+// import "../../../node_modules/aos/dist/aos";
+// import "../../../node_modules/aos/dist/aos.css";
 //apexcharts
 import Chart from "react-apexcharts";
 
@@ -16,7 +16,8 @@ import Chart from "react-apexcharts";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
-// Import Swiper stylesimport SwiperCore, { Navigation } from 'swiper';
+// import Swiper styles
+import Navigation  from 'swiper';
 import 'swiper/css/navigation';
 
 //progressbar
@@ -38,9 +39,9 @@ import { useSelector } from "react-redux";
 import * as SettingSelector from "../../store/setting/selectors";
 
 // install Swiper modules
-SwiperCore.use([Navigation]);
+// SwiperCore.use([Navigation]);
 
-const   Index = memo((props) => {
+const Index = memo((props) => {
   useSelector(SettingSelector.theme_color);
 
   const getVariableColor = () => {
@@ -75,19 +76,18 @@ const   Index = memo((props) => {
     return () => colors;
   });
 
-  useEffect(() => {
-    AOS.init({
-      startEvent: "DOMContentLoaded",
-      disable: function () {
-        var maxWidth = 996;
-        return window.innerWidth < maxWidth;
-      },
-      throttleDelay: 10,
-      once: true,
-      duration: 700,
-      offset: 10,
-    });
-  });
+  // useEffect(() => {
+  //   AOS.init({
+  //     disable: function () {
+  //       var maxWidth = 996;
+  //       return window.innerWidth < maxWidth;
+  //     },
+  //     throttleDelay: 10,
+  //     once: true,
+  //     duration: 700,
+  //     offset: 10,
+  //   });
+  // });
   const chart1 = {
     options: {
       chart: {
@@ -289,7 +289,7 @@ const   Index = memo((props) => {
                   2040: { slidesPerView: 7 },
                   2440: { slidesPerView: 8 }
                 }}
-    
+
               >
                 <SwiperSlide className="card card-slide" >
                   <div className="card-body">
