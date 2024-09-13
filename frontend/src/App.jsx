@@ -1,8 +1,29 @@
-import { useState } from 'react'
-import './App.css'
 
-function App() {
-  return (<h1>Good Morning.</h1>)
+import './App.css'
+import VerticalNav from './pages/Dashboard'
+import "./assets/scss/hope-ui.scss"
+import "./assets/scss/custom.scss"
+import "./assets/scss/dark.scss"
+import "./assets/scss/rtl.scss"
+import "./assets/scss/customizer.scss"
+
+// Redux Selector / Action
+// import { useDispatch } from 'react-redux';
+
+// import state selectors
+// import { setSetting } from './store/setting/actions'
+
+function App({ children }) {
+  // const dispatch = useDispatch()
+  // dispatch(setSetting())
+  return (
+    <div className="App">
+      {/* <IndexRouters /> */}
+      {/* {children} */}
+      <VerticalNav />
+
+    </div>
+  );
 }
 
-export default App
+export default App;
