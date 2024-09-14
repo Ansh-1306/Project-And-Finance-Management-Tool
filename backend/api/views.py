@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import Group
-from .permissions import ProjectManagerOrAdminPermission,EmployeeorAdminPermission,IsAdmin,IsEmployeePermission,IsProjectManagerPermission
+from .permissions import IsAdmin,IsEmployeePermission,IsProjectManagerPermission,IsEmployeeOrProjectManagerPeermission
 from .models import User
 from .serializers import UserSerializer
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -125,23 +125,23 @@ class ProjectMemberRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAP
 class TaskListCreateAPIView(generics.ListCreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes=[IsAuthenticated,IsEmployeePermission,IsProjectManagerPermission]
+    permission_classes=[IsEmployeeOrProjectManagerPeermission]
 
 class TaskRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes=[IsAuthenticated,IsEmployeePermission,IsProjectManagerPermission]
+    permission_classes=[IsEmployeeOrProjectManagerPeermission]
 
 # TaskComment Views
 class TaskCommentListCreateAPIView(generics.ListCreateAPIView):
     queryset = TaskComment.objects.all()
     serializer_class = TaskCommentSerializer
-    permission_classes=[IsAuthenticated,IsEmployeePermission,IsProjectManagerPermission]
+    permission_classes=[IsEmployeeOrProjectManagerPeermission]
 
 class TaskCommentRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TaskComment.objects.all()
     serializer_class = TaskCommentSerializer
-    permission_classes=[IsAuthenticated,IsEmployeePermission,IsProjectManagerPermission]
+    permission_classes=[IsEmployeeOrProjectManagerPeermission]
 
 # Expense Views
 class ExpenseListCreateAPIView(generics.ListCreateAPIView):

@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-i@d8(ob&c7$n6#0#2km)8ljmip!4$_x#sl4vu!7h6kc$ypi-b5
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'api.User'
 
 # Application definition
 
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api',
+    'api.apps.ApiConfig',
     'rest_framework_simplejwt',
     'rest_framework',
     'corsheaders',
@@ -47,9 +47,11 @@ INSTALLED_APPS = [
 ]
 REST_FRAMEWORK = {
      'DEFAULT_AUTHENTICATION_CLASSES': (
-    
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
@@ -60,6 +62,8 @@ SIMPLE_JWT = {
     "UPDATE_LAST_LOGIN": False,
     "SIGNING_KEY": settings.SECRET_KEY,
     "TOKEN_OBTAIN_SERIALIZER": "api.views.CustomTokenObtainPairSerializer",
+    'USER_ID_FIELD': 'user_id',
+    'USER_ID_CLAIM': 'user_id',
 }
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
