@@ -13,7 +13,7 @@ import Footer from '../../components/partials/dashboard/FooterStyle/footer'
 
 // store
 
-import SettingOffCanvas from '../../components/setting/SettingOffCanvas'
+// import SettingOffCanvas from '../../components/setting/SettingOffCanvas'
 
 
 
@@ -51,7 +51,7 @@ const Boxed = memo((props) => {
                 <Footer />
             </main>
         </div>
-        <SettingOffCanvas/>
+        {/* <SettingOffCanvas/> */}
         </Fragment>
     )
 })

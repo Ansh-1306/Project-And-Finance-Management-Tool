@@ -13,7 +13,7 @@ import Footer from "../../components/partials/dashboard/FooterStyle/footer";
 import Loader from "../../components/Loader";
 
 // store
-import SettingOffCanvas from "../../components/setting/SettingOffCanvas";
+// import SettingOffCanvas from "../../components/setting/SettingOffCanvas";
 
 const BoxedFancy = memo((props) => {
   useEffect(() => {
@@ -68,7 +68,7 @@ const BoxedFancy = memo((props) => {
         <Footer />
       </main>
     </div>
-    <SettingOffCanvas/>
+    {/* <SettingOffCanvas/> */}
     </Fragment>
   );
 });

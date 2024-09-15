@@ -23,7 +23,7 @@ import Footer from "../../components/partials/dashboard/FooterStyle/footer";
 // import {DefaultRouter} from '../../router/default-router'
 
 //seetingoffCanvas
-import SettingOffCanvas from "../../components/setting/SettingOffCanvas";
+// import SettingOffCanvas from "../../components/setting/SettingOffCanvas";
 
 import Loader from "../../components/Loader";
 
@@ -201,7 +201,7 @@ const Default = memo((props) => {
         </div>
         <Footer />
       </main>
-      <SettingOffCanvas />
+      {/* <SettingOffCanvas /> */}
     </Fragment>
   );
 });

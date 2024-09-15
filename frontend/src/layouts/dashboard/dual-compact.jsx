@@ -12,7 +12,7 @@ import HeaderStyle4 from '../../components/partials/dashboard/HeaderStyle/header
 //footer
 import Footer from '../../components/partials/dashboard/FooterStyle/footer'
 import { Fragment } from 'react';
-import SettingOffCanvas from '../../components/setting/SettingOffCanvas'
+// import SettingOffCanvas from '../../components/setting/SettingOffCanvas'
 import { memo } from 'react';
 
 
@@ -49,7 +49,7 @@ const DualCompact = memo((props) => {
         </div>
         <Footer />
       </main>
-      <SettingOffCanvas/>
+      {/* <SettingOffCanvas/> */}
     </Fragment>
   )
 })
