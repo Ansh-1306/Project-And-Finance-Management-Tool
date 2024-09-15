@@ -1,6 +1,6 @@
 
 import './App.css'
-import VerticalNav from './pages/Dashboard'
+
 import "./assets/scss/hope-ui.scss"
 import "./assets/scss/custom.scss"
 import "./assets/scss/dark.scss"
