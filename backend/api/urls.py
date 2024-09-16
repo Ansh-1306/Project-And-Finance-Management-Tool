@@ -1,7 +1,6 @@
 from django.urls import path
-from . import views
-from .views import UserListCreateView, UserDetailView
 from .views import (
+    UserListCreateView, UserDetailView,
     DepartmentListCreateAPIView, DepartmentRetrieveUpdateDestroyAPIView,
     RoleListCreateAPIView, RoleRetrieveUpdateDestroyAPIView,
     EmployeeListCreateAPIView, EmployeeRetrieveUpdateDestroyAPIView,
@@ -16,13 +15,11 @@ from .views import CustomTokenObtainPairView
 
 
 urlpatterns = [ # Path to handle form submission
-     path('users/', UserListCreateView.as_view(), name='user-list-create'),
-    path('users/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
-    
-    
-    
     path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    path('users/', UserListCreateView.as_view(), name='user-list-create'),
+    path('users/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
     
     # Department URLs
     path('departments/', DepartmentListCreateAPIView.as_view(), name='department-list-create'),

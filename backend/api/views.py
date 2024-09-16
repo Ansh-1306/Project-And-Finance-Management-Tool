@@ -13,16 +13,6 @@ from .serializers import (
     DepartmentSerializer, RoleSerializer, EmployeeSerializer, ProjectSerializer,
     ProjectMemberSerializer, TaskSerializer, TaskCommentSerializer, ExpenseSerializer
 )
-    
-    
- 
-
-
-# View to render the HTML page at the root path
-
-    
-    
-#Custom jwt tokenclass
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
