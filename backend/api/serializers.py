@@ -10,7 +10,7 @@ from .models import Department, Role, Employee, Project, ProjectMember, Task, Ta
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['user_id', 'user_email', 'password', 'last_login', 'is_active', 'is_deleted']
+        fields = ['user_id', 'user_email', 'password', 'last_login', 'is_active']
         extra_kwargs = {
             'password': {'write_only': True}
         }

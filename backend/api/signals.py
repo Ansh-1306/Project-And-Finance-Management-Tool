@@ -9,6 +9,7 @@ User = get_user_model()
 def create_groups(sender, **kwargs):
     Group.objects.get_or_create(name='Employee')
     Group.objects.get_or_create(name='Project_manager')
+    # Group.objects.get_or_create(name='Admin')
 
 @receiver(post_save, sender=User)
 def assign_group(sender, instance, created, **kwargs):

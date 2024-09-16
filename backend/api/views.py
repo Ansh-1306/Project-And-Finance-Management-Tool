@@ -1,7 +1,3 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-import json
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
@@ -12,7 +8,6 @@ from django.contrib.auth.models import Group
 from .permissions import IsAdmin,IsEmployeePermission,IsProjectManagerPermission,IsEmployeeOrProjectManagerPeermission
 from .models import User
 from .serializers import UserSerializer
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from .models import Department, Role, Employee, Project, ProjectMember, Task, TaskComment, Expense
 from .serializers import (
     DepartmentSerializer, RoleSerializer, EmployeeSerializer, ProjectSerializer,
@@ -51,18 +46,17 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 #user table api views
 class UserListCreateView(generics.ListCreateAPIView):
-    queryset = User.objects.filter(is_deleted=False)
+    queryset = User.objects.filter(is_active=False)
     serializer_class = UserSerializer
     permission_classes=[IsAuthenticated,IsAdmin]
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.filter(is_deleted=False)
+    queryset = User.objects.filter(is_active=False)
     serializer_class = UserSerializer
     permission_classes=[IsAuthenticated,IsAdmin]
     def delete(self, request, *args, **kwargs):
-        # Perform a soft delete by setting `is_deleted` to True
         instance = self.get_object()
-        instance.is_deleted = True
+        instance.is_active = False
         instance.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
