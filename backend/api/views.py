@@ -36,12 +36,12 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 #user table api views
 class UserListCreateView(generics.ListCreateAPIView):
-    queryset = User.objects.filter(is_active=False)
+    queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
     permission_classes=[IsAuthenticated,IsAdmin]
 
 class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.filter(is_active=False)
+    queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
     permission_classes=[IsAuthenticated,IsAdmin]
     def delete(self, request, *args, **kwargs):
