@@ -5,7 +5,7 @@ import React from 'react'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
 // const Login = React.lazy(() => import('./views/pages/login/Login'))
-const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
+// const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 
 const UserIndex = React.lazy(() => import('./views/pages/User/Index'))
 const UserCreate = React.lazy(() => import('./views/pages/User/Create'))

@@ -3,6 +3,8 @@ import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import { CCard, CCardHeader, CCardBody, CButton, CFormCheck, CSpinner, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter } from '@coreui/react';
 import { useNavigate } from 'react-router-dom';
+import CIcon from '@coreui/icons-react';
+import { cilDelete, cilFile, cilPen,  } from '@coreui/icons';
 
 const DepartmentIndex = () => {
     const [departments, setDepartments] = useState([]);
@@ -78,11 +80,14 @@ const DepartmentIndex = () => {
             sortable: true,
         },
         {
-            name: 'Active',
+            name: 'Actions',
             cell: (row) => (
-                <CFormCheck id={`active-check-${row.department_id}`} checked={row.is_active} disabled />
+                <div className='no-wrap flex d-flex flex-row gap-3'>
+                    <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/departments/${row.employee_id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '}
+                    <CButton size="sm" color="warning" onClick={() => navigate(`/departments/edit/${row.employee_id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
+                    <CButton size="sm" color="danger"><CIcon icon={cilDelete}></CIcon></CButton>
+                </div>
             ),
-            ignoreRowClick: true,
         },
     ];
 

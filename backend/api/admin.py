@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Department, Role, Employee, Project, ProjectMember, Task, TaskComment, Expense
+from .models import User, Department, Role, Employee, Project, Task, Expense
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
@@ -67,26 +67,11 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = ('status', 'department', 'is_active')
 
 
-@admin.register(ProjectMember)
-class ProjectMemberAdmin(admin.ModelAdmin):
-    list_display = ('project', 'employee')
-    search_fields = ('project__title', 'employee__first_name', 'employee__last_name')
-    list_filter = ('project', 'employee')
-
-
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = ('title', 'status', 'project', 'assigned_to', 'start_date', 'due_date', 'is_active')
     search_fields = ('title', 'project__title', 'assigned_to__first_name', 'assigned_to__last_name')
     list_filter = ('status', 'project', 'is_active')
-
-
-@admin.register(TaskComment)
-class TaskCommentAdmin(admin.ModelAdmin):
-    list_display = ('task', 'employee', 'comment', 'date', 'is_active')
-    search_fields = ('task__title', 'employee__first_name', 'employee__last_name')
-    list_filter = ('task', 'employee', 'is_active')
-
 
 @admin.register(Expense)
 class ExpenseAdmin(admin.ModelAdmin):

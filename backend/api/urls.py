@@ -5,9 +5,7 @@ from .views import (
     RoleListCreateAPIView, RoleRetrieveUpdateDestroyAPIView,
     EmployeeListCreateAPIView, EmployeeRetrieveUpdateDestroyAPIView,
     ProjectListCreateAPIView, ProjectRetrieveUpdateDestroyAPIView,
-    ProjectMemberListCreateAPIView, ProjectMemberRetrieveUpdateDestroyAPIView,
     TaskListCreateAPIView, TaskRetrieveUpdateDestroyAPIView,
-    TaskCommentListCreateAPIView, TaskCommentRetrieveUpdateDestroyAPIView,
     ExpenseListCreateAPIView, ExpenseRetrieveUpdateDestroyAPIView
 )
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -37,17 +35,9 @@ urlpatterns = [ # Path to handle form submission
     path('projects/', ProjectListCreateAPIView.as_view(), name='project-list-create'),
     path('projects/<int:pk>/', ProjectRetrieveUpdateDestroyAPIView.as_view(), name='project-retrieve-update-destroy'),
     
-    # ProjectMember URLs
-    path('project-members/', ProjectMemberListCreateAPIView.as_view(), name='project-member-list-create'),
-    path('project-members/<int:pk>/', ProjectMemberRetrieveUpdateDestroyAPIView.as_view(), name='project-member-retrieve-update-destroy'),
-    
     # Task URLs
     path('tasks/', TaskListCreateAPIView.as_view(), name='task-list-create'),
     path('tasks/<int:pk>/', TaskRetrieveUpdateDestroyAPIView.as_view(), name='task-retrieve-update-destroy'),
-    
-    # TaskComment URLs
-    path('task-comments/', TaskCommentListCreateAPIView.as_view(), name='task-comment-list-create'),
-    path('task-comments/<int:pk>/', TaskCommentRetrieveUpdateDestroyAPIView.as_view(), name='task-comment-retrieve-update-destroy'),
     
     # Expense URLs
     path('expenses/', ExpenseListCreateAPIView.as_view(), name='expense-list-create'),

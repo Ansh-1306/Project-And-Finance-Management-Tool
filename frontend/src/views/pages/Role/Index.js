@@ -3,6 +3,8 @@ import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import { CCard, CCardHeader, CCardBody, CButton, CFormCheck, CSpinner, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter } from '@coreui/react';
 import { useNavigate } from 'react-router-dom';
+import CIcon from '@coreui/icons-react';
+import { cilDelete, cilFile, cilPen,  } from '@coreui/icons';
 
 const RoleIndex = () => {
     const [roles, setRoles] = useState([]);
@@ -44,6 +46,7 @@ const RoleIndex = () => {
                     }
                 });
                 setRoles(response.data);
+                console.log(response.data)
             } catch (err) {
                 setError(err.message);
                 setModalVisible(true);
@@ -80,15 +83,18 @@ const RoleIndex = () => {
         },
         {
             name: 'Department',
-            selector: row => row.department.name,  // Assuming 'department' has a 'name' field
+            selector: row => row.department.department_name,  // Assuming 'department' has a 'name' field
             sortable: true,
         },
         {
-            name: 'Active',
+            name: 'Actions',
             cell: (row) => (
-                <CFormCheck id={`active-check-${row.role_id}`} checked={row.is_active} disabled />
+                <div className='no-wrap flex d-flex flex-row gap-3'>
+                    <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/roles/${row.employee_id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '}
+                    <CButton size="sm" color="warning" onClick={() => navigate(`/roles/edit/${row.employee_id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
+                    <CButton size="sm" color="danger"><CIcon icon={cilDelete}></CIcon></CButton>
+                </div>
             ),
-            ignoreRowClick: true,
         },
     ];
 

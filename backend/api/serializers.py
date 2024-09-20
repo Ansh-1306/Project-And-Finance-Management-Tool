@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import User
 from django.contrib.auth.hashers import make_password
-from .models import Department, Role, Employee, Project, ProjectMember, Task, TaskComment, Expense
+from .models import Department, Role, Employee, Project, Task, Expense
 
 
 
@@ -34,36 +34,44 @@ class DepartmentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class RoleSerializer(serializers.ModelSerializer):
+    department = DepartmentSerializer(read_only=True)
+    
     class Meta:
         model = Role
         fields = '__all__'
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    department = DepartmentSerializer(read_only=True)
+    role = RoleSerializer(read_only=True)
+
     class Meta:
         model = Employee
-        fields = '__all__'
+        fields = '__all__'  
+
 
 class ProjectSerializer(serializers.ModelSerializer):
+    members = EmployeeSerializer(many=True, read_only=True)
+    department = DepartmentSerializer(read_only=True)
+
+
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = '__all__' 
 
-class ProjectMemberSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ProjectMember
-        fields = '__all__'
 
 class TaskSerializer(serializers.ModelSerializer):
+    project = ProjectSerializer(read_only=True)
+    assigned_to = EmployeeSerializer(read_only=True)
+
     class Meta:
         model = Task
         fields = '__all__'
 
-class TaskCommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TaskComment
-        fields = '__all__'
 
 class ExpenseSerializer(serializers.ModelSerializer):
+    project = ProjectSerializer(read_only=True)
+
     class Meta:
         model = Expense
         fields = '__all__'

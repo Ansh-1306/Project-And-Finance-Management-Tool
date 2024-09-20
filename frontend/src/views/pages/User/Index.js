@@ -3,6 +3,8 @@ import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import { CCard, CCardHeader, CCardBody, CButton, CFormCheck, CSpinner, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter } from '@coreui/react';
 import { useNavigate } from 'react-router-dom';
+import CIcon from '@coreui/icons-react';
+import { cilDelete, cilFile, cilPen,  } from '@coreui/icons';
 
 const UserIndex = () => {
     const [users, setUsers] = useState([]);
@@ -86,19 +88,16 @@ const UserIndex = () => {
             ),
             ignoreRowClick: true,
         },
-        {
-            name: 'Last Login',
-            selector: row => row.last_login ? new Date(row.last_login).toLocaleString() : 'Never',
-            sortable: true,
-            omit: window.innerWidth < 992,
-        },
-        {
-            name: 'Active',
-            cell: (row) => (
-                <CFormCheck id={`active-check-${row.user_id}`} checked={row.is_active} disabled />
-            ),
-            ignoreRowClick: true,
-        },
+        // {
+        //     name: 'Actions',
+        //     cell: (row) => (
+        //         <div className='no-wrap flex d-flex flex-row gap-3'>
+        //             <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/users/${row.employee_id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '}
+        //             <CButton size="sm" color="warning" onClick={() => navigate(`/users/edit/${row.employee_id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
+        //             <CButton size="sm" color="danger"><CIcon icon={cilDelete}></CIcon></CButton>
+        //         </div>
+        //     ),
+        // },
     ];
 
     const filteredItems = users.filter(
@@ -110,7 +109,7 @@ const UserIndex = () => {
             <CCard className='mb-4'>
                 <CCardHeader className='d-flex flex-row justify-content-between'>
                     <h2 className='flex-item flex-grow-1'>User Management</h2>
-                    <CButton color="primary my-1" onClick={() => navigate('/users/create')}>Create New</CButton>
+                    {/* <CButton color="primary my-1" onClick={() => navigate('/users/create')}>Create New</CButton> */}
                 </CCardHeader>
                 <CCardBody>
                     <DataTable

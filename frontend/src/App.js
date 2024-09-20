@@ -4,14 +4,11 @@ import { useSelector } from 'react-redux'
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
 
-import routes from './routes'
-import { element } from 'prop-types'
-
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 // Pages
 const Login = React.lazy(() => import('./views/pages/login/Login'))
-const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
+// const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')

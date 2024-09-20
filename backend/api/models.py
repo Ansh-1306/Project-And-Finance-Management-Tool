@@ -125,6 +125,7 @@ class Project(models.Model):
     end_date = models.DateTimeField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    employees = models.ManyToManyField(Employee, related_name='projects')
     project_expense = models.FloatField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -133,13 +134,6 @@ class Project(models.Model):
     def __str__(self):
         return self.title
 
-class ProjectMember(models.Model):
-    id = models.AutoField(primary_key=True)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.employee} in {self.project}"
 
 class Task(models.Model):
     STATUS_CHOICES = [
@@ -163,19 +157,6 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
-
-class TaskComment(models.Model):
-    id = models.AutoField(primary_key=True)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    comment = models.TextField()
-    date = models.DateTimeField()
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"Comment by {self.employee} on {self.task}"
 
 class Expense(models.Model):
     id = models.AutoField(primary_key=True)

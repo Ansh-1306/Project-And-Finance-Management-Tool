@@ -1,116 +1,106 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { CCard, CCardHeader, CCardBody, CForm, CFormLabel, CFormInput, CButton, CFormCheck } from '@coreui/react';
-import { Navigate } from 'react-router-dom';
+import {
+    CCard,
+    CCardHeader,
+    CCardBody,
+    CForm,
+    CFormLabel,
+    CFormInput,
+    CButton,
+    CModal,
+    CModalHeader,
+    CModalTitle,
+    CModalBody,
+    CModalFooter
+} from '@coreui/react';
+import { useNavigate } from 'react-router-dom';
 
 const RoleCreate = () => {
-
     const [formData, setFormData] = useState({
-        username: '',
-        user_email: '',
-        password: '',
-        is_active: true,
-        is_staff: true,
-        is_superuser: false,
+        role_name: '',
+        description: '',
     });
 
-
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: type === 'checkbox' ? checked : value,
+            [name]: value,
         });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const accessToken = localStorage.getItem('access_token');
+
         try {
-            await axios.post('/api/users/create/', formData);
-            alert('User created successfully!');
-            setFormData({ username: '', user_email: '', password: '', is_active: true, is_staff: true, is_superuser: false });  // Reset form
-            const navigate = Navigate()
-            navigate('users')
+            await axios.post('http://127.0.0.1:8000/roles/', formData, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            setModalMessage('Role created successfully!');
+            setModalVisible(true);
+            setFormData({ role_name: '', description: '' });  // Reset form
         } catch (error) {
-            alert('Error creating user: ' + (error.response?.data?.detail || 'An error occurred'));
+            setModalMessage('Error creating role: ' + (error.response?.data?.detail || 'An error occurred'));
+            setModalVisible(true);
         }
     };
 
     return (
         <>
             <CCard>
-                <CCardHeader><h3 className='pt-2'>Create User</h3></CCardHeader>
+                <CCardHeader><h3 className='pt-2'>Create Role</h3></CCardHeader>
                 <CCardBody>
                     <CForm onSubmit={handleSubmit}>
                         <div className="mb-3">
-                            <CFormLabel htmlFor="username" className='h5'>Username</CFormLabel>
+                            <CFormLabel htmlFor="role_name" className='h5'>Role Name</CFormLabel>
                             <CFormInput
                                 size='lg'
                                 type="text"
-                                id="username"
-                                name="username"
-                                placeholder="Enter username"
-                                value={formData.username}
+                                id="role_name"
+                                name="role_name"
+                                placeholder="Enter role name"
+                                value={formData.role_name}
                                 onChange={handleChange}
+                                required
                             />
                         </div>
                         <div className="mb-3">
-                            <CFormLabel htmlFor="user_email" className='h5'>Email address</CFormLabel>
+                            <CFormLabel htmlFor="description" className='h5'>Description</CFormLabel>
                             <CFormInput
                                 size='lg'
-                                type="email"
-                                id="user_email"
-                                name="user_email"
-                                placeholder="name@example.com"
-                                value={formData.user_email}
+                                type="text"
+                                id="description"
+                                name="description"
+                                placeholder="Enter description"
+                                value={formData.description}
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="mb-3">
-                            <CFormLabel htmlFor="password" className='h5'>Password</CFormLabel>
-                            <CFormInput
-                                size='lg'
-                                type="password"
-                                id="password"
-                                name="password"
-                                placeholder="Enter password"
-                                value={formData.password}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <div className='mb-3 d-flex flex-column justify-content-around'>
-                            <CFormCheck
-                                type="checkbox"
-                                id="is_active"
-                                name="is_active"
-                                label="Active"
-                                checked={formData.is_active}
-                                onChange={handleChange}
-                            />
-                            <CFormCheck
-                            className='mr-4'
-                                type="checkbox"
-                                id="is_staff"
-                                name="is_staff"
-                                label="Staff"
-                                checked={formData.is_staff}
-                                onChange={handleChange}
-                            />
-                            <CFormCheck
-                                className='mr-4'
-                                type="checkbox"
-                                id="is_superuser"
-                                name="is_superuser"
-                                label="Superuser"
-                                checked={formData.is_superuser}
-                                onChange={handleChange}
-                            />
-                        </div>
-                        <CButton type="submit" color="primary">Create User</CButton>
+                        <CButton type="submit" color="primary">Create Role</CButton>
                     </CForm>
                 </CCardBody>
             </CCard>
+
+            <CModal visible={modalVisible} onClose={() => setModalVisible(false)}>
+                <CModalHeader onClose={() => setModalVisible(false)}>
+                    <CModalTitle>Notification</CModalTitle>
+                </CModalHeader>
+                <CModalBody>{modalMessage}</CModalBody>
+                <CModalFooter>
+                    <CButton color="secondary" onClick={() => setModalVisible(false)}>Close</CButton>
+                    {modalMessage.includes('successfully') && (
+                        <CButton color="primary" onClick={() => navigate('/roles')}>Go to Roles</CButton>
+                    )}
+                </CModalFooter>
+            </CModal>
         </>
     );
 };

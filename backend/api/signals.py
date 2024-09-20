@@ -14,6 +14,6 @@ def create_groups(sender, **kwargs):
 @receiver(post_save, sender=User)
 def assign_group(sender, instance, created, **kwargs):
     if created and not instance.is_superuser and not instance.is_staff:
-        group_name = instance.user_group or 'Employee'
+        group_name = getattr(instance, 'user_group', 'Employee')
         group, _ = Group.objects.get_or_create(name=group_name)
         instance.groups.add(group)
