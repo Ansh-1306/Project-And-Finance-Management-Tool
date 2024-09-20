@@ -5,7 +5,7 @@ import { CCard, CCardHeader, CCardBody, CButton, CFormCheck, CSpinner, CModal, C
 import { useNavigate } from 'react-router-dom';
 
 const RoleIndex = () => {
-    const [departments, setDepartments] = useState([]);
+    const [roles, setRoles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
@@ -17,7 +17,7 @@ const RoleIndex = () => {
             <input
                 key="search"
                 type="text"
-                placeholder="Search by department name..."
+                placeholder="Search by role name..."
                 style={{
                     width: '20%',
                     padding: '5px',
@@ -34,15 +34,16 @@ const RoleIndex = () => {
     }, [filterText]);
 
     useEffect(() => {
-        const fetchDepartments = async () => {
+        const fetchRoles = async () => {
             try {
                 const token = localStorage.getItem('access_token');
-                const response = await axios.get('http://127.0.0.1:8000/departments/', {
+
+                const response = await axios.get('http://127.0.0.1:8000/roles/', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setDepartments(response.data);
+                setRoles(response.data);
             } catch (err) {
                 setError(err.message);
                 setModalVisible(true);
@@ -51,7 +52,7 @@ const RoleIndex = () => {
             }
         };
 
-        fetchDepartments();
+        fetchRoles();
     }, []);
 
     const handleLoginRedirect = () => {
@@ -62,14 +63,14 @@ const RoleIndex = () => {
 
     const columns = [
         {
-            name: 'Department ID',
-            selector: row => row.department_id,
+            name: 'Role ID',
+            selector: row => row.role_id,
             sortable: true,
             omit: window.innerWidth < 768,
         },
         {
-            name: 'Department Name',
-            selector: row => row.department_name,
+            name: 'Role Name',
+            selector: row => row.name,
             sortable: true,
         },
         {
@@ -78,24 +79,29 @@ const RoleIndex = () => {
             sortable: true,
         },
         {
+            name: 'Department',
+            selector: row => row.department.name,  // Assuming 'department' has a 'name' field
+            sortable: true,
+        },
+        {
             name: 'Active',
             cell: (row) => (
-                <CFormCheck id={`active-check-${row.department_id}`} checked={row.is_active} disabled />
+                <CFormCheck id={`active-check-${row.role_id}`} checked={row.is_active} disabled />
             ),
             ignoreRowClick: true,
         },
     ];
 
-    const filteredItems = departments.filter(
-        item => item.department_name && item.department_name.toLowerCase().includes(filterText.toLowerCase())
+    const filteredItems = roles.filter(
+        item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
     );
 
     return (
         <>
             <CCard className='mb-4'>
                 <CCardHeader className='d-flex flex-row justify-content-between'>
-                    <h2 className='flex-item flex-grow-1'>Department Management</h2>
-                    <CButton color="primary my-1" onClick={() => navigate('/departments/create')}>Create New</CButton>
+                    <h2 className='flex-item flex-grow-1'>Role Management</h2>
+                    <CButton color="primary my-1" onClick={() => navigate('/roles/create')}>Create New</CButton>
                 </CCardHeader>
                 <CCardBody>
                     <DataTable
