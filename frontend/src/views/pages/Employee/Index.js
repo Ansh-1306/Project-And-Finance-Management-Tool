@@ -113,8 +113,8 @@ const EmployeeIndex = () => {
             name: 'Actions',
             cell: (row) => (
                 <div className='no-wrap flex d-flex flex-row gap-3'>
-                    <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/employees/${row.employee_id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '}
-                    <CButton size="sm" color="warning" onClick={() => navigate(`/employees/edit/${row.employee_id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
+                    {/* <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/employees/${row.employee_id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '} */}
+                    <CButton size="sm" color="warning" onClick={() => navigate(`/employees/update/${row.employee_id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
                     <CButton size="sm" color="danger"><CIcon icon={cilDelete}></CIcon></CButton>
                 </div>
             ),

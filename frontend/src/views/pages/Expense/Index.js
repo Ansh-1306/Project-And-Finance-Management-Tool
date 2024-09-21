@@ -94,8 +94,8 @@ const ExpenseIndex = () => {
             name: 'Actions',
             cell: (row) => (
                 <div className='no-wrap flex d-flex flex-row gap-3'>
-                    <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/expenses/${row.employee_id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '}
-                    <CButton size="sm" color="warning" onClick={() => navigate(`/expenses/edit/${row.employee_id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
+                    {/* <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/expenses/${row.id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '} */}
+                    <CButton size="sm" color="warning" onClick={() => navigate(`/expenses/update/${row.id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
                     <CButton size="sm" color="danger"><CIcon icon={cilDelete}></CIcon></CButton>
                 </div>
             ),

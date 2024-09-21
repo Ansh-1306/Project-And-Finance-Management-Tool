@@ -102,8 +102,8 @@ const TaskIndex = () => {
             name: 'Actions',
             cell: (row) => (
                 <div className='no-wrap flex d-flex flex-row gap-3'>
-                    <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/tasks/${row.employee_id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '}
-                    <CButton size="sm" color="warning" onClick={() => navigate(`/tasks/edit/${row.employee_id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
+                    {/* <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/tasks/${row.task_id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '} */}
+                    <CButton size="sm" color="warning" onClick={() => navigate(`/tasks/update/${row.task_id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
                     <CButton size="sm" color="danger"><CIcon icon={cilDelete}></CIcon></CButton>
                 </div>
             ),

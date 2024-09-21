@@ -90,8 +90,8 @@ const RoleIndex = () => {
             name: 'Actions',
             cell: (row) => (
                 <div className='no-wrap flex d-flex flex-row gap-3'>
-                    <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/roles/${row.employee_id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '}
-                    <CButton size="sm" color="warning" onClick={() => navigate(`/roles/edit/${row.employee_id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
+                    {/* <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/roles/${row.role_id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '} */}
+                    <CButton size="sm" color="warning" onClick={() => navigate(`/roles/update/${row.role_id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
                     <CButton size="sm" color="danger"><CIcon icon={cilDelete}></CIcon></CButton>
                 </div>
             ),

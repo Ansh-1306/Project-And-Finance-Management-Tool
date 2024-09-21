@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import {
@@ -19,23 +19,62 @@ const WidgetsDropdown = (props) => {
   const widgetChartRef1 = useRef(null)
   const widgetChartRef2 = useRef(null)
 
-  useEffect(() => {
-    document.documentElement.addEventListener('ColorSchemeChange', () => {
-      if (widgetChartRef1.current) {
-        setTimeout(() => {
-          widgetChartRef1.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-primary')
-          widgetChartRef1.current.update()
-        })
-      }
+  const [data, setData] = useState({
+    expense: 0,
+    projects: 0,
+    departments: 0,
+    tasks: 0,
+  })
 
-      if (widgetChartRef2.current) {
-        setTimeout(() => {
-          widgetChartRef2.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-info')
-          widgetChartRef2.current.update()
-        })
+  useEffect(() => {
+    const fetchData = async () => {
+      const accessToken = localStorage.getItem('access_token'); // Adjust based on where you store your token
+    
+      try {
+        const response = await Promise.all([
+          fetch('http://localhost:8000/expenses/', {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }),
+          fetch('http://localhost:8000/projects/', {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }),
+          fetch('http://localhost:8000/departments/', {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }),
+          fetch('http://localhost:8000/employees/', {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }),
+        ]);
+    
+        const [expenseData, projectsData, departmentsData, employeesData] = await Promise.all(
+          response.map((res) => res.json())
+        );
+
+        const totalExpense = expenseData.reduce((acc, expense) => acc + expense.amount, 0);
+        const totalProjects = projectsData.length
+        const totalDepartments = departmentsData.length
+        const totalEmployees = employeesData.length
+        setData({
+          expense: Math.round(totalExpense), 
+          projects: totalProjects, 
+          departments: totalDepartments, 
+          tasks: totalEmployees, 
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    })
-  }, [widgetChartRef1, widgetChartRef2])
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <CRow className={props.className} xs={{ gutter: 4 }}>
@@ -44,13 +83,14 @@ const WidgetsDropdown = (props) => {
           color="primary"
           value={
             <>
-              26K{' '}
+              {data.projects ?? 0} {' '}
               <span className="fs-6 fw-normal">
-                (-12.4% <CIcon icon={cilArrowBottom} />)
+                {/* Replace with actual percentage change logic */}
+               
               </span>
             </>
           }
-          title="Users"
+          title="Projects"
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
@@ -73,11 +113,11 @@ const WidgetsDropdown = (props) => {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Projects over time',
                     backgroundColor: 'transparent',
                     borderColor: 'rgba(255,255,255,.55)',
                     pointBackgroundColor: getStyle('--cui-primary'),
-                    data: [65, 59, 84, 84, 51, 55, 40],
+                    data: [/* Add your project data here */],
                   },
                 ],
               }}
@@ -90,39 +130,20 @@ const WidgetsDropdown = (props) => {
                 maintainAspectRatio: false,
                 scales: {
                   x: {
-                    border: {
-                      display: false,
-                    },
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
+                    border: { display: false },
+                    grid: { display: false, drawBorder: false },
+                    ticks: { display: false },
                   },
                   y: {
-                    min: 30,
-                    max: 89,
+                    min: 0,
                     display: false,
-                    grid: {
-                      display: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
+                    grid: { display: false },
+                    ticks: { display: false },
                   },
                 },
                 elements: {
-                  line: {
-                    borderWidth: 1,
-                    tension: 0.4,
-                  },
-                  point: {
-                    radius: 4,
-                    hitRadius: 10,
-                    hoverRadius: 4,
-                  },
+                  line: { borderWidth: 1, tension: 0.4 },
+                  point: { radius: 4, hitRadius: 10, hoverRadius: 4 },
                 },
               }}
             />
@@ -134,13 +155,13 @@ const WidgetsDropdown = (props) => {
           color="info"
           value={
             <>
-              $6.200{' '}
+              ₹{data.expense ?? 0}{' '}
               <span className="fs-6 fw-normal">
-                (40.9% <CIcon icon={cilArrowTop} />)
+                {/* Replace with actual percentage change logic */}
               </span>
             </>
           }
-          title="Income"
+          title="Expenses"
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
@@ -163,55 +184,35 @@ const WidgetsDropdown = (props) => {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Expenses over time',
                     backgroundColor: 'transparent',
                     borderColor: 'rgba(255,255,255,.55)',
                     pointBackgroundColor: getStyle('--cui-info'),
-                    data: [1, 18, 9, 17, 34, 22, 11],
+                    data: [/* Add your expense data here */],
                   },
                 ],
               }}
               options={{
                 plugins: {
-                  legend: {
-                    display: false,
-                  },
+                  legend: { display: false },
                 },
                 maintainAspectRatio: false,
                 scales: {
                   x: {
-                    border: {
-                      display: false,
-                    },
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
+                    border: { display: false },
+                    grid: { display: false, drawBorder: false },
+                    ticks: { display: false },
                   },
                   y: {
-                    min: -9,
-                    max: 39,
+                    min: 0,
                     display: false,
-                    grid: {
-                      display: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
+                    grid: { display: false },
+                    ticks: { display: false },
                   },
                 },
                 elements: {
-                  line: {
-                    borderWidth: 1,
-                  },
-                  point: {
-                    radius: 4,
-                    hitRadius: 10,
-                    hoverRadius: 4,
-                  },
+                  line: { borderWidth: 1 },
+                  point: { radius: 4, hitRadius: 10, hoverRadius: 4 },
                 },
               }}
             />
@@ -223,13 +224,14 @@ const WidgetsDropdown = (props) => {
           color="warning"
           value={
             <>
-              2.49%{' '}
+              {data.departments ?? 0}{' '}
               <span className="fs-6 fw-normal">
-                (84.7% <CIcon icon={cilArrowTop} />)
+                {/* Replace with actual percentage change logic */}
+               
               </span>
             </>
           }
-          title="Conversion Rate"
+          title="Departments"
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
@@ -251,39 +253,26 @@ const WidgetsDropdown = (props) => {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Departments over time',
                     backgroundColor: 'rgba(255,255,255,.2)',
                     borderColor: 'rgba(255,255,255,.55)',
-                    data: [78, 81, 80, 45, 34, 12, 40],
+                    data: [/* Add your department data here */],
                     fill: true,
                   },
                 ],
               }}
               options={{
                 plugins: {
-                  legend: {
-                    display: false,
-                  },
+                  legend: { display: false },
                 },
                 maintainAspectRatio: false,
                 scales: {
-                  x: {
-                    display: false,
-                  },
-                  y: {
-                    display: false,
-                  },
+                  x: { display: false },
+                  y: { display: false },
                 },
                 elements: {
-                  line: {
-                    borderWidth: 2,
-                    tension: 0.4,
-                  },
-                  point: {
-                    radius: 0,
-                    hitRadius: 10,
-                    hoverRadius: 4,
-                  },
+                  line: { borderWidth: 2, tension: 0.4 },
+                  point: { radius: 0, hitRadius: 10, hoverRadius: 4 },
                 },
               }}
             />
@@ -295,13 +284,14 @@ const WidgetsDropdown = (props) => {
           color="danger"
           value={
             <>
-              44K{' '}
+              {data.tasks ?? 0}{' '}
               <span className="fs-6 fw-normal">
-                (-23.6% <CIcon icon={cilArrowBottom} />)
+                {/* Replace with actual percentage change logic */}
+            
               </span>
             </>
           }
-          title="Sessions"
+          title="Employees"
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
@@ -321,29 +311,15 @@ const WidgetsDropdown = (props) => {
               style={{ height: '70px' }}
               data={{
                 labels: [
-                  'January',
-                  'February',
-                  'March',
-                  'April',
-                  'May',
-                  'June',
-                  'July',
-                  'August',
-                  'September',
-                  'October',
-                  'November',
-                  'December',
-                  'January',
-                  'February',
-                  'March',
-                  'April',
+                  'January', 'February', 'March', 'April', 'May', 'June',
+                  'July', 'August', 'September', 'October', 'November', 'December'
                 ],
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Tasks over time',
                     backgroundColor: 'rgba(255,255,255,.2)',
                     borderColor: 'rgba(255,255,255,.55)',
-                    data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+                    data: [/* Add your task data here */],
                     barPercentage: 0.6,
                   },
                 ],
@@ -351,32 +327,17 @@ const WidgetsDropdown = (props) => {
               options={{
                 maintainAspectRatio: false,
                 plugins: {
-                  legend: {
-                    display: false,
-                  },
+                  legend: { display: false },
                 },
                 scales: {
                   x: {
-                    grid: {
-                      display: false,
-                      drawTicks: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
+                    grid: { display: false, drawTicks: false },
+                    ticks: { display: false },
                   },
                   y: {
-                    border: {
-                      display: false,
-                    },
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                      drawTicks: false,
-                    },
-                    ticks: {
-                      display: false,
-                    },
+                    border: { display: false },
+                    grid: { display: false, drawBorder: false, drawTicks: false },
+                    ticks: { display: false },
                   },
                 },
               }}

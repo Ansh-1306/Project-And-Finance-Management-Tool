@@ -1,6 +1,6 @@
 import random
 from django.core.management.base import BaseCommand
-from api.models import User, Department, Role, Employee, Project, Task, ProjectMember, TaskComment, Expense
+from api.models import User, Department, Role, Employee, Project, Task, Expense
 from django.utils import timezone
 from django.contrib.auth.models import Group
 
@@ -45,7 +45,7 @@ class Command(BaseCommand):
                 user=user, department=random.choice(departments), role=random.choice(roles),
                 date_of_birth=timezone.now() - timezone.timedelta(days=10000),
                 joining_date=timezone.now() - timezone.timedelta(days=365 * random.randint(1, 5)),
-                salary=random.uniform(40000, 90000), is_active=True
+                salary=round(random.uniform(40000, 90000)), is_active=True
             )
             employees.append(employee)
 
@@ -58,7 +58,7 @@ class Command(BaseCommand):
                 end_date=timezone.now() + timezone.timedelta(days=365),
                 status=random.choice(['not_started', 'in_progress', 'completed', 'on_hold']),
                 department=random.choice(departments),
-                project_expense=random.uniform(10000, 50000),
+                project_expense=round(random.uniform(10000, 50000)),
                 is_active=True
             )
             projects.append(project)
@@ -79,28 +79,12 @@ class Command(BaseCommand):
                 )
                 tasks.append(task)
 
-        # Create task comments
-        for task in tasks:
-            for i in range(3):
-                TaskComment.objects.get_or_create(
-                    task=task,
-                    employee=random.choice(employees),
-                    comment=f'This is comment {i} for task {task.title}',
-                    date=timezone.now(),
-                    is_active=True
-                )
-
-        # Create project members
-        for project in projects:
-            for employee in random.sample(employees, k=3):
-                ProjectMember.objects.get_or_create(project=project, employee=employee)
-
         # Create expenses
         for project in projects:
             for i in range(3):
                 Expense.objects.get_or_create(
                     project=project,
-                    amount=random.uniform(100, 1000),
+                    amount=round(random.uniform(100, 1000)),
                     description=f'Expense {i} for project {project.title}',
                     date=timezone.now() - timezone.timedelta(days=random.randint(1, 10)),
                     is_active=True
