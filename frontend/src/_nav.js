@@ -12,7 +12,7 @@ import {
   cilTransfer,
   cilContact
 } from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import {  CNavItem } from '@coreui/react'
 
 const _nav = [
   {
@@ -20,10 +20,6 @@ const _nav = [
     name: 'Dashboard',
     to: '/',
     icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
-    badge: {
-      color: 'success',
-      text: 'NEW',
-    },
   },
   {
     component: CNavItem,
