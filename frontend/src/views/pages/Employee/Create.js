@@ -134,6 +134,7 @@ const EmployeeCreate = () => {
                             <CFormSelect
                                 id="user"
                                 name="user"
+                                size='lg'
                                 value={formData.user}
                                 onChange={handleChange}
                                 required
@@ -149,6 +150,7 @@ const EmployeeCreate = () => {
                             <CFormSelect
                                 id="department"
                                 name="department"
+                                size='lg'
                                 value={formData.department}
                                 onChange={handleChange}
                                 required
@@ -164,6 +166,7 @@ const EmployeeCreate = () => {
                             <CFormSelect
                                 id="role"
                                 name="role"
+                                size='lg'
                                 value={formData.role}
                                 onChange={handleChange}
                                 required

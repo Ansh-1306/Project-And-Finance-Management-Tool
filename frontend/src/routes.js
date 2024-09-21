@@ -37,31 +37,31 @@ const routes = [
   { path: '/', name: 'Dashboard', element: Dashboard },
 
   { path: '/users', name: 'Users', element: UserIndex, exact: true },
-  { path: '/users/create/:id', name: 'Create', element: UserCreate },
+  { path: '/users/create/', name: 'Create', element: UserCreate },
   { path: '/users/update/:id', name: 'Update', element: UserUpdate },
 
   { path: '/employees', name: 'Employees', element: EmployeeIndex, exact: true },
-  { path: '/employees/create/:id', name: 'Create', element: EmployeeCreate },
+  { path: '/employees/create/', name: 'Create', element: EmployeeCreate },
   { path: '/employees/update/:id', name: 'Update', element: EmployeeUpdate },
 
   { path: '/departments', name: 'Departments', element: DepartmentIndex, exact: true },
-  { path: '/departments/create/:id', name: 'Create', element: DepartmentCreate },
+  { path: '/departments/create/', name: 'Create', element: DepartmentCreate },
   { path: '/departments/update/:id', name: 'Update', element: DepartmentUpdate },
 
   { path: '/roles', name: 'Roles', element: RoleIndex, exact: true },
-  { path: '/roles/create/:id', name: 'Create', element: RoleCreate },
+  { path: '/roles/create/', name: 'Create', element: RoleCreate },
   { path: '/roles/update/:id', name: 'Update', element: RoleUpdate },
 
   { path: '/projects', name: 'Projects', element: ProjectIndex, exact: true },
-  { path: '/projects/create/:id', name: 'Create', element: ProjectCreate },
+  { path: '/projects/create/', name: 'Create', element: ProjectCreate },
   { path: '/projects/update/:id', name: 'Update', element: ProjectUpdate },
 
   { path: '/tasks', name: 'Tasks', element: TaskIndex, exact: true },
-  { path: '/tasks/create/:id', name: 'Create', element: TaskCreate },
+  { path: '/tasks/create/', name: 'Create', element: TaskCreate },
   { path: '/tasks/update/:id', name: 'Update', element: TaskUpdate },
 
   { path: '/expenses', name: 'Expenses', element: ExpenseIndex, exact: true },
-  { path: '/expenses/create/:id', name: 'Create', element: ExpenseCreate },
+  { path: '/expenses/create/', name: 'Create', element: ExpenseCreate },
   { path: '/expenses/update/:id', name: 'Update', element: ExpenseUpdate },
 ]
 

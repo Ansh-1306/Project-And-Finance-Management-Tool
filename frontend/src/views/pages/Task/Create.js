@@ -115,6 +115,7 @@ const TaskCreate = () => {
                             <CFormSelect
                                 id="project"
                                 name="project"
+                                size='lg'
                                 value={formData.project}
                                 onChange={handleChange}
                                 required
@@ -130,6 +131,7 @@ const TaskCreate = () => {
                             <CFormSelect
                                 id="assigned_to"
                                 name="assigned_to"
+                                size='lg'
                                 value={formData.assigned_to}
                                 onChange={handleChange}
                                 required
@@ -143,6 +145,7 @@ const TaskCreate = () => {
                         <div className="mb-3">
                             <CFormLabel htmlFor="status" className='h5'>Status</CFormLabel>
                             <CFormSelect
+                                size='lg'
                                 id="status"
                                 name="status"
                                 value={formData.status}

@@ -139,6 +139,7 @@ const ProjectCreate = () => {
                             <CFormSelect
                                 id="status"
                                 name="status"
+                                size='lg'
                                 value={formData.status}
                                 onChange={handleChange}
                                 required
@@ -155,6 +156,7 @@ const ProjectCreate = () => {
                             <CFormSelect
                                 id="department"
                                 name="department"
+                                size='lg'
                                 value={formData.department}
                                 onChange={handleChange}
                                 required

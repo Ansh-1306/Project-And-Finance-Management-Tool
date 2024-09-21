@@ -106,6 +106,7 @@ const ExpenseCreate = () => {
                         <div className="mb-3">
                             <CFormLabel htmlFor="project" className='h5'>Project</CFormLabel>
                             <CFormSelect
+                            size='lg'
                                 id="project"
                                 name="project"
                                 value={formData.project}

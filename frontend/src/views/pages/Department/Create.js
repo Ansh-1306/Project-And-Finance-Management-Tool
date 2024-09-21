@@ -90,6 +90,7 @@ const DepartmentCreate = () => {
                             <CFormCheck
                                 type="checkbox"
                                 id="is_active"
+                                
                                 name="is_active"
                                 label="Active"
                                 checked={formData.is_active}
