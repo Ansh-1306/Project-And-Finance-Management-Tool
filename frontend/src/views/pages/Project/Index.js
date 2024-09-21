@@ -4,13 +4,15 @@ import DataTable from 'react-data-table-component';
 import { CCard, CCardHeader, CCardBody, CButton, CSpinner, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter } from '@coreui/react';
 import { useNavigate } from 'react-router-dom';
 import CIcon from '@coreui/icons-react';
-import { cilDelete, cilFile, cilPen,  } from '@coreui/icons';
+import { cilDelete, cilPen } from '@coreui/icons';
 
 const ProjectIndex = () => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
+    const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
+    const [projectToDelete, setProjectToDelete] = useState(null);
     const [filterText, setFilterText] = useState('');
     const navigate = useNavigate();
 
@@ -56,6 +58,23 @@ const ProjectIndex = () => {
         fetchProjects();
     }, []);
 
+    const handleDelete = async () => {
+        try {
+            const token = localStorage.getItem('access_token');
+            await axios.delete(`http://127.0.0.1:8000/projects/${projectToDelete}/`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setProjects(projects.filter(project => project.project_id !== projectToDelete));
+            setConfirmDeleteModal(false); // Close the confirmation modal
+        } catch (err) {
+            setError('Something went wrong while deleting the project');
+            setModalVisible(true);
+            setConfirmDeleteModal(false);
+        }
+    };
+
     const handleLoginRedirect = () => {
         navigate('/login');
     };
@@ -90,7 +109,7 @@ const ProjectIndex = () => {
         },
         {
             name: 'Department',
-            selector: row => row.department.department_name, // Assuming department has a name field
+            selector: row => row.department.department_name,
             sortable: true,
         },
         {
@@ -102,9 +121,8 @@ const ProjectIndex = () => {
             name: 'Actions',
             cell: (row) => (
                 <div className='no-wrap flex d-flex flex-row gap-3'>
-                    {/* <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/projects/${row.project_id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '} */}
                     <CButton size="sm" color="warning" onClick={() => navigate(`/projects/update/${row.project_id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
-                    <CButton size="sm" color="danger"><CIcon icon={cilDelete}></CIcon></CButton>
+                    <CButton size="sm" color="danger" onClick={() => { setProjectToDelete(row.project_id); setConfirmDeleteModal(true); }}><CIcon icon={cilDelete}></CIcon></CButton>
                 </div>
             ),
         },
@@ -147,6 +165,19 @@ const ProjectIndex = () => {
                 <CModalFooter>
                     <CButton color="secondary" onClick={() => setModalVisible(false)}>Close</CButton>
                     <CButton color="primary" onClick={handleLoginRedirect}>Go to Login</CButton>
+                </CModalFooter>
+            </CModal>
+
+            <CModal visible={confirmDeleteModal} onClose={() => setConfirmDeleteModal(false)}>
+                <CModalHeader closeButton>
+                    <CModalTitle>Confirm Deletion</CModalTitle>
+                </CModalHeader>
+                <CModalBody>
+                    <p>Are you sure you want to delete this project?</p>
+                </CModalBody>
+                <CModalFooter>
+                    <CButton color="secondary" onClick={() => setConfirmDeleteModal(false)}>Cancel</CButton>
+                    <CButton color="danger" onClick={handleDelete}>Delete</CButton>
                 </CModalFooter>
             </CModal>
         </>

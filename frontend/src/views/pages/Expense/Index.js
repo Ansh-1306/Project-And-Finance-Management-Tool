@@ -4,13 +4,15 @@ import DataTable from 'react-data-table-component';
 import { CCard, CCardHeader, CCardBody, CButton, CSpinner, CModal, CModalHeader, CModalTitle, CModalBody, CModalFooter } from '@coreui/react';
 import { useNavigate } from 'react-router-dom';
 import CIcon from '@coreui/icons-react';
-import { cilDelete, cilFile, cilPen,  } from '@coreui/icons';
+import { cilDelete, cilPen } from '@coreui/icons';
 
 const ExpenseIndex = () => {
     const [expenses, setExpenses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
+    const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
+    const [expenseToDelete, setExpenseToDelete] = useState(null);
     const [filterText, setFilterText] = useState('');
     const navigate = useNavigate();
 
@@ -45,7 +47,6 @@ const ExpenseIndex = () => {
                     }
                 });
                 setExpenses(response.data);
-                console.log(response.data);
             } catch (err) {
                 setError('Something went wrong while fetching expenses');
                 setModalVisible(true);
@@ -59,6 +60,23 @@ const ExpenseIndex = () => {
 
     const handleLoginRedirect = () => {
         navigate('/login');
+    };
+
+    const handleDelete = async () => {
+        try {
+            const token = localStorage.getItem('access_token');
+            await axios.delete(`http://127.0.0.1:8000/expenses/${expenseToDelete}/`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setExpenses(expenses.filter(expense => expense.id !== expenseToDelete));
+            setConfirmDeleteModal(false); // Close the confirmation modal
+        } catch (err) {
+            setError('Something went wrong while deleting the expense');
+            setModalVisible(true);
+            setConfirmDeleteModal(false);
+        }
     };
 
     if (loading) return <CSpinner color="primary" className='mx-auto d-flex' />;
@@ -94,9 +112,8 @@ const ExpenseIndex = () => {
             name: 'Actions',
             cell: (row) => (
                 <div className='no-wrap flex d-flex flex-row gap-3'>
-                    {/* <CButton size="sm" className='no-wrap' color="info" onClick={() => navigate(`/expenses/${row.id}`)}><CIcon icon={cilFile}></CIcon></CButton>{' '} */}
                     <CButton size="sm" color="warning" onClick={() => navigate(`/expenses/update/${row.id}`)}><CIcon icon={cilPen}></CIcon></CButton>{' '}
-                    <CButton size="sm" color="danger"><CIcon icon={cilDelete}></CIcon></CButton>
+                    <CButton size="sm" color="danger" onClick={() => { setExpenseToDelete(row.id); setConfirmDeleteModal(true); }}><CIcon icon={cilDelete}></CIcon></CButton>
                 </div>
             ),
         },
@@ -139,6 +156,19 @@ const ExpenseIndex = () => {
                 <CModalFooter>
                     <CButton color="secondary" onClick={() => setModalVisible(false)}>Close</CButton>
                     <CButton color="primary" onClick={handleLoginRedirect}>Go to Login</CButton>
+                </CModalFooter>
+            </CModal>
+
+            <CModal visible={confirmDeleteModal} onClose={() => setConfirmDeleteModal(false)}>
+                <CModalHeader closeButton>
+                    <CModalTitle>Confirm Deletion</CModalTitle>
+                </CModalHeader>
+                <CModalBody>
+                    <p>Are you sure you want to delete this expense?</p>
+                </CModalBody>
+                <CModalFooter>
+                    <CButton color="secondary" onClick={() => setConfirmDeleteModal(false)}>Cancel</CButton>
+                    <CButton color="danger" onClick={handleDelete}>Delete</CButton>
                 </CModalFooter>
             </CModal>
         </>
