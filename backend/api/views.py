@@ -112,5 +112,6 @@ class ExpenseListCreateAPIView(generics.ListCreateAPIView):
 
 class ExpenseRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Expense.objects.select_related('project').all()
+    
     serializer_class = ExpenseSerializer
     permission_classes=[IsAuthenticated,IsAdmin]
